@@ -1,32 +1,36 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Image, { type StaticImageData } from "next/image";
 import React from "react";
+import logoImage from "@/images/logo/logo.png";
 
-const Logo = ({
-  className,
-  spanDesign,
-}: {
+interface Props {
   className?: string;
-  spanDesign?: string;
-}) => {
+  logoClassName?: string;
+  logoUrl?: string | StaticImageData;
+}
+
+const Logo = ({ className, logoClassName, logoUrl }: Props) => {
   return (
-    <Link href={"/"} className="inline-flex">
-      <h2
+    <Link 
+      href="/" 
+      className={cn("flex items-center hover:opacity-80 transition-opacity", className)}
+    >
+      <div
         className={cn(
-          "text-2xl text-shop_dark_green font-black tracking-wider uppercase hover:text-shop_light_green hoverEffect group font-sans",
-          className
+          "relative w-[180px] h-[60px] md:w-[240px] md:h-[80px]",
+          logoClassName
         )}
       >
-        Shopcar
-        <span
-          className={cn(
-            "text-shop_light_green group-hover:text-shop_dark_green hoverEffect",
-            spanDesign
-          )}
-        >
-          t
-        </span>
-      </h2>
+        <Image
+          src={logoUrl || logoImage}
+          alt="ShopCart Logo"
+          fill
+          priority
+          sizes="(max-width: 768px) 180px, 240px"
+          className="object-contain"
+        />
+      </div>
     </Link>
   );
 };

@@ -26,6 +26,12 @@ export const categoryType = defineType({
       type: "text",
     }),
     defineField({
+      name: "productCount",
+      type: "number",
+      description: "Number of products in this category",
+      readOnly: true,
+    }),
+    defineField({
       name: "range",
       type: "number",
       description: "Starting from",

@@ -10,7 +10,7 @@ import Title from "./Title";
 import ProductSideMenu from "./ProductSideMenu";
 import AddToCartButton from "./AddToCartButton";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product, viewMode = "grid" }: { product: Product; viewMode?: "grid" | "list" }) => {
   return (
     <div className="text-sm border-[1px] rounded-md border-darkBlue/20 group bg-white">
       <div className="relative group overflow-hidden bg-shop_light_bg">
