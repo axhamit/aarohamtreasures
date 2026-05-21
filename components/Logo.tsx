@@ -24,7 +24,7 @@ const Logo = ({ className, logoClassName, logoUrl }: Props) => {
       >
         <Image
           src={logoUrl || logoImage}
-          alt="ShopCart Logo"
+          alt="Aaroham Treasure Logo"
           fill
           priority
           sizes="(max-width: 768px) 180px, 240px"

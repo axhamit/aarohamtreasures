@@ -34,9 +34,9 @@ const data: ContactItemData[] = [
   },
   {
     title: "Email Us",
-    subtitle: "Shopcart@gmail.com",
+    subtitle: "support@aarohamtresure.com",
     action: "Send Message",
-    link: "mailto:Shopcart@gmail.com",
+    link: "mailto:support@aarohamtresure.com",
     icon: <Mail className="h-5 w-5" />,
   },
 ];

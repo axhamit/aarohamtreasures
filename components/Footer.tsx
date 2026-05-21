@@ -61,7 +61,7 @@ const Footer = () => {
               <Logo className="text-2xl" />
             </div>
             <SubText className="text-gray-600 leading-relaxed">
-              Discover curated furniture collections at Shopcartyt, blending
+              Discover curated furniture collections at Aaroham Treasure, blending
               style and comfort to elevate your living spaces.
             </SubText>
             
@@ -83,7 +83,7 @@ const Footer = () => {
                 <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center group-hover:bg-amber-500 transition-colors">
                   <Mail className="w-4 h-4 text-amber-600 group-hover:text-white" />
                 </div>
-                <span>support@shopcartyt.com</span>
+                <span>support@aarohamtresure.com</span>
               </div>
             </div>
             
