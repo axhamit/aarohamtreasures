@@ -81,8 +81,6 @@ const HomeBanner = () => {
               href="/shop"
               className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 overflow-hidden rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/25 hover:scale-105"
             >
-              <span>Shop Now</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               <div className="absolute inset-0 bg-gradient-to-r from-amber-600 to-amber-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
               <span className="relative z-10">Shop Now</span>
               <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
