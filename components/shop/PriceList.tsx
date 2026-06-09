@@ -4,11 +4,11 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 
 const priceArray = [
-  { title: "Under $100", value: "0-100" },
-  { title: "$100 - $200", value: "100-200" },
-  { title: "$200 - $300", value: "200-300" },
-  { title: "$300 - $500", value: "300-500" },
-  { title: "Over $500", value: "500-10000" },
+  { title: "0-100", value: "0-100" },
+  { title: "100-200", value: "100-200" },
+  { title: "200-300", value: "200-300" },
+  { title: "300-500", value: "300-500" },
+  { title: "500-10000", value: "500-10000" },
 ];
 
 interface Props {
@@ -16,29 +16,43 @@ interface Props {
   setSelectedPrice: React.Dispatch<React.SetStateAction<string | null>>;
 }
 const PriceList = ({ selectedPrice, setSelectedPrice }: Props) => {
+  const rate = Number(process.env.NEXT_PUBLIC_USD_TO_INR) || 83;
+  const formatINR = (val: number) =>
+    Number(Math.round(val)).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+
   return (
     <div className="w-full bg-white p-5">
       <Title className="text-base font-black">Price</Title>
       <RadioGroup className="mt-2 space-y-1" value={selectedPrice || ""}>
-        {priceArray?.map((price, index) => (
-          <div
-            key={index}
-            onClick={() => setSelectedPrice(price?.value)}
-            className="flex items-center space-x-2 hover:cursor-pointer"
-          >
-            <RadioGroupItem
-              value={price?.value}
-              id={price?.value}
-              className="rounded-sm"
-            />
-            <Label
-              htmlFor={price.value}
-              className={`${selectedPrice === price?.value ? "font-semibold text-shop_dark_green" : "font-normal"}`}
+        {priceArray?.map((price, index) => {
+          const [minStr, maxStr] = price.value.split("-");
+          const min = Number(minStr);
+          const max = Number(maxStr);
+          let displayTitle = "";
+          if (min === 0) displayTitle = `Under ${formatINR(max * rate)}`;
+          else if (max > 1000) displayTitle = `Over ${formatINR(min * rate)}`;
+          else displayTitle = `${formatINR(min * rate)} - ${formatINR(max * rate)}`;
+
+          return (
+            <div
+              key={index}
+              onClick={() => setSelectedPrice(price?.value)}
+              className="flex items-center space-x-2 hover:cursor-pointer"
             >
-              {price?.title}
-            </Label>
-          </div>
-        ))}
+              <RadioGroupItem
+                value={price?.value}
+                id={price?.value}
+                className="rounded-sm"
+              />
+              <Label
+                htmlFor={price.value}
+                className={`${selectedPrice === price?.value ? "font-semibold text-shop_dark_green" : "font-normal"}`}
+              >
+                {displayTitle}
+              </Label>
+            </div>
+          );
+        })}
       </RadioGroup>
       {selectedPrice && (
         <button

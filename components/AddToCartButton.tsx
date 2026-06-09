@@ -129,7 +129,7 @@ const AddToCartButton = ({
               <div className="flex items-center gap-2">
                 <Shield className="w-3.5 h-3.5 text-emerald-500" />
                 <span className="text-xs font-medium text-gray-500">
-                  Free delivery on $50+
+                  Free delivery on ₹999+
                 </span>
               </div>
               <div className="text-right">

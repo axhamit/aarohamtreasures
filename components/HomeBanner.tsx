@@ -3,6 +3,7 @@ import { Title } from "./ui/text";
 import Link from "next/link";
 import Image from "next/image";
 import { banner_1 } from "@/images";
+import PriceFormatter from "./PriceFormatter";
 import { ArrowRight, Star, Headphones } from "lucide-react";
 
 const HomeBanner = () => {
@@ -135,8 +136,8 @@ const HomeBanner = () => {
                 {/* Price Tag */}
                 <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md rounded-full px-4 py-2 border border-amber-400/30">
                   <div className="text-center">
-                    <div className="text-xs text-white/60 line-through">$299</div>
-                    <div className="text-xl font-bold text-amber-400">$149</div>
+                      <div className="text-xs text-white/60 line-through"><PriceFormatter amount={299} /></div>
+                      <div className="text-xl font-bold text-amber-400"><PriceFormatter amount={149} /></div>
                   </div>
                 </div>
               </div>
