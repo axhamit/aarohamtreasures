@@ -24,13 +24,16 @@ import {
   Twitter,
   Instagram,
   Linkedin,
-  Youtube
+  Youtube,
+  Heart
 } from "lucide-react";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState("INR");
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +45,12 @@ const Footer = () => {
       setEmail("");
       setTimeout(() => setIsSubscribed(false), 3000);
     }, 1000);
+  };
+
+  // Working Hours
+  const workingHours = {
+    weekdays: "10:00 AM - 8:00 PM",
+    weekend: "11:00 AM - 6:00 PM"
   };
 
   return (
@@ -65,25 +74,37 @@ const Footer = () => {
               style and comfort to elevate your living spaces.
             </SubText>
             
-            {/* Contact Info */}
+            {/* Contact Info - Updated with Bangalore location */}
             <div className="space-y-3 pt-2">
               <div className="flex items-center gap-3 text-sm text-gray-600 hover:text-amber-600 transition-colors group">
                 <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center group-hover:bg-amber-500 transition-colors">
                   <MapPin className="w-4 h-4 text-amber-600 group-hover:text-white" />
                 </div>
-                <span>123 Luxury Street, NY 10001</span>
+                <span className="flex-1">#45, Brigade Road, Bangalore - 560001, Karnataka, India</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-gray-600 hover:text-amber-600 transition-colors group">
                 <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center group-hover:bg-amber-500 transition-colors">
                   <Phone className="w-4 h-4 text-amber-600 group-hover:text-white" />
                 </div>
-                <span>+1 (555) 123-4567</span>
+                <div className="flex flex-col">
+                  <span>+91 80500 18073</span>
+                  <span className="text-xs text-gray-400">(10 AM - 8 PM, Mon-Sat)</span>
+                </div>
               </div>
               <div className="flex items-center gap-3 text-sm text-gray-600 hover:text-amber-600 transition-colors group">
                 <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center group-hover:bg-amber-500 transition-colors">
                   <Mail className="w-4 h-4 text-amber-600 group-hover:text-white" />
                 </div>
-                <span>support@aarohamtresure.com</span>
+                <span>care@aarohamtresure.com</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-gray-600 transition-colors">
+                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                  <Clock className="w-4 h-4 text-gray-500" />
+                </div>
+                <div className="flex flex-col text-xs">
+                  <span>Mon-Fri: {workingHours.weekdays}</span>
+                  <span>Sat-Sun: {workingHours.weekend}</span>
+                </div>
               </div>
             </div>
             
@@ -216,34 +237,55 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-gray-500 text-center md:text-left">
+            <div className="text-sm text-gray-500 text-center md:text-left flex items-center gap-1">
               © {new Date().getFullYear()} <Logo className="inline text-sm" />. 
-              All rights reserved. | Crafted with ❤️ for luxury shopping
+              All rights reserved. | Crafted with <Heart className="w-3 h-3 text-red-500 inline mx-1" /> for luxury shopping
             </div>
             
             {/* Payment Methods */}
             <div className="flex items-center gap-3">
               <span className="text-xs text-gray-400">Secure payments by</span>
               <div className="flex gap-2">
-                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono">VISA</div>
-                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono">Mastercard</div>
-                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono">PayPal</div>
-                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono">Amex</div>
+                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono hover:bg-amber-100 transition-colors cursor-pointer">VISA</div>
+                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono hover:bg-amber-100 transition-colors cursor-pointer">Mastercard</div>
+                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono hover:bg-amber-100 transition-colors cursor-pointer">PayPal</div>
+                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono hover:bg-amber-100 transition-colors cursor-pointer">Amex</div>
+                <div className="px-2 py-1 bg-gray-100 rounded text-xs font-mono hover:bg-amber-100 transition-colors cursor-pointer">UPI</div>
               </div>
             </div>
             
             {/* Language/Currency Selector */}
             <div className="flex gap-3">
-              <select className="text-xs bg-transparent border border-gray-200 rounded-md px-2 py-1 text-gray-600 focus:outline-none focus:border-amber-500">
-                <option>USD</option>
-                <option>EUR</option>
-                <option>GBP</option>
+              <select 
+                value={selectedCurrency}
+                onChange={(e) => setSelectedCurrency(e.target.value)}
+                className="text-xs bg-transparent border border-gray-200 rounded-md px-2 py-1 text-gray-600 focus:outline-none focus:border-amber-500 cursor-pointer hover:bg-gray-50 transition-colors"
+              >
+                <option value="INR">INR ₹</option>
+                <option value="USD">USD $</option>
+                <option value="EUR">EUR €</option>
+                <option value="GBP">GBP £</option>
               </select>
-              <select className="text-xs bg-transparent border border-gray-200 rounded-md px-2 py-1 text-gray-600 focus:outline-none focus:border-amber-500">
-                <option>English</option>
-                <option>Spanish</option>
-                <option>French</option>
+              <select 
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+                className="text-xs bg-transparent border border-gray-200 rounded-md px-2 py-1 text-gray-600 focus:outline-none focus:border-amber-500 cursor-pointer hover:bg-gray-50 transition-colors"
+              >
+                <option value="English">English</option>
+                <option value="Hindi">हिंदी</option>
+                <option value="Kannada">ಕನ್ನಡ</option>
+                <option value="Spanish">Español</option>
               </select>
+            </div>
+          </div>
+        </div>
+        
+        {/* Location Badge - Bangalore Specific */}
+        <div className="absolute bottom-20 right-4 md:bottom-24 md:right-8 opacity-0 hover:opacity-100 transition-opacity duration-300">
+          <div className="bg-white/90 backdrop-blur-sm rounded-full shadow-lg px-3 py-1.5 border border-amber-200">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-xs text-gray-600">Now in Bangalore</span>
             </div>
           </div>
         </div>
