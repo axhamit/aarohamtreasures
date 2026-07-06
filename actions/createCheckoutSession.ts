@@ -30,6 +30,7 @@ export async function createCheckoutSession(
       limit: 1,
     });
     const customerId = customers?.data?.length > 0 ? customers.data[0].id : "";
+    const rate = Number(process.env.NEXT_PUBLIC_USD_TO_INR) || 83;
 
     const sessionPayload: Stripe.Checkout.SessionCreateParams = {
       metadata: {
@@ -49,7 +50,6 @@ export async function createCheckoutSession(
         process.env.NEXT_PUBLIC_BASE_URL
       }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
-      const rate = Number(process.env.NEXT_PUBLIC_USD_TO_INR) || 83;
       line_items: items?.map((item) => ({
         price_data: {
           currency: "INR",
