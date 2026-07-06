@@ -13,7 +13,7 @@ interface ContactItemData {
 const data: ContactItemData[] = [
   {
     title: "Visit Our Store",
-    subtitle: "New Orlean, USA",
+    subtitle: "Bangalore, India",
     action: "Get Directions",
     link: "#",
     icon: <MapPin className="h-5 w-5" />,
