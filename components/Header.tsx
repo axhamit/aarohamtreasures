@@ -5,17 +5,17 @@ import HeaderMenu from "./HeaderMenu";
 import SearchBar from "./SearchBar";
 import CartIcon from "./CartIcon";
 import FavoriteButton from "./FavoriteButton";
-import SignIn from "./SignIn";
 import MobileMenu from "./MobileMenu";
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { ClerkLoaded, SignedIn, UserButton } from "@clerk/nextjs";
+import AuthControls from "./AuthControls";
 import Link from "next/link";
 import { Logs } from "lucide-react";
 import { getMyOrders } from "@/sanity/queries";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth/next";
 
 const Header = async () => {
-  const user = await currentUser();
-  const { userId } = await auth();
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
   let orders = null;
   if (userId) {
     orders = await getMyOrders(userId);
@@ -34,7 +34,7 @@ const Header = async () => {
           <CartIcon />
           <FavoriteButton />
 
-          {user && (
+          {session?.user && (
             <Link
               href={"/orders"}
               className="group relative hover:text-shop_light_green hoverEffect"
@@ -46,12 +46,7 @@ const Header = async () => {
             </Link>
           )}
 
-          <ClerkLoaded>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-            {!user && <SignIn />}
-          </ClerkLoaded>
+          <AuthControls />
         </div>
       </Container>
     </header>

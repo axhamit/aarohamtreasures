@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Card,
@@ -7,7 +8,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import Logo from "./Logo";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import { signIn } from "next-auth/react";
 import { Button } from "./ui/button";
 
 const NoAccess = ({
@@ -26,21 +27,26 @@ const NoAccess = ({
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-center font-medium text-darkColor/80">{details}</p>
-          <SignInButton mode="modal">
-            <Button className="w-full" size="lg">
-              Sign in
-            </Button>
-          </SignInButton>
+          <Button
+            className="w-full"
+            size="lg"
+            onClick={() => signIn("google", { callbackUrl: "/" })}
+          >
+            Sign in with Google
+          </Button>
         </CardContent>
         <CardFooter className="flex flex-col space-y-2">
           <div className="text-sm text-muted-foreground text-center">
             Don&rsquo;t have an account?
           </div>
-          <SignUpButton mode="modal">
-            <Button variant="outline" className="w-full" size="lg">
-              Create an account
-            </Button>
-          </SignUpButton>
+          <Button
+            variant="outline"
+            className="w-full"
+            size="lg"
+            onClick={() => signIn("google", { callbackUrl: "/" })}
+          >
+            Continue with Google
+          </Button>
         </CardFooter>
       </Card>
     </div>

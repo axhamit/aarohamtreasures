@@ -1,4 +1,4 @@
-import { BasketIcon } from "@sanity/icons";
+import { BasketIcon } from "@sanity/icons/Basket";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const orderType = defineType({
@@ -34,8 +34,8 @@ export const orderType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "clerkUserId",
-      title: "Store User ID",
+      name: "authUserId",
+      title: "Authenticated User ID",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
@@ -49,7 +49,13 @@ export const orderType = defineType({
       name: "email",
       title: "Customer Email",
       type: "string",
-      validation: (Rule) => Rule.required().email(),
+      validation: (Rule) => Rule.optional().email(),
+    }),
+    defineField({
+      name: "phone",
+      title: "Customer Phone",
+      type: "string",
+      validation: (Rule) => Rule.optional(),
     }),
     defineField({
       name: "stripePaymentIntentId",
@@ -156,12 +162,14 @@ export const orderType = defineType({
       currency: "currency",
       orderId: "orderNumber",
       email: "email",
+      phone: "phone",
     },
     prepare(select) {
       const orderIdSnippet = `${select.orderId.slice(0, 5)}...${select.orderId.slice(-5)}`;
+      const contact = select.email || select.phone || "No contact";
       return {
         title: `${select.name} (${orderIdSnippet})`,
-        subtitle: `${select.amount} ${select.currency}, ${select.email}`,
+        subtitle: `${select.amount} ${select.currency}, ${contact}`,
         media: BasketIcon,
       };
     },

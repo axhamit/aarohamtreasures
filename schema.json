@@ -964,7 +964,7 @@
         },
         "optional": true
       },
-      "clerkUserId": {
+      "authUserId": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

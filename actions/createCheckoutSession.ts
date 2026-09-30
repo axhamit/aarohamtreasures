@@ -9,8 +9,9 @@ import Stripe from "stripe";
 export interface Metadata {
   orderNumber: string;
   customerName: string;
-  customerEmail: string;
-  clerkUserId?: string;
+  customerEmail?: string;
+  customerPhone?: string;
+  authUserId?: string;
   address?: Address | null;
 }
 
@@ -25,10 +26,13 @@ export async function createCheckoutSession(
 ) {
   try {
     // Retrieve existing customer or create a new one
-    const customers = await stripe.customers.list({
-      email: metadata.customerEmail,
-      limit: 1,
-    });
+    const isValidEmail = !!metadata.customerEmail && metadata.customerEmail.includes("@");
+    const customers = isValidEmail
+      ? await stripe.customers.list({
+          email: metadata.customerEmail!,
+          limit: 1,
+        })
+      : { data: [] };
     const customerId = customers?.data?.length > 0 ? customers.data[0].id : "";
     const rate = Number(process.env.NEXT_PUBLIC_USD_TO_INR) || 83;
 
@@ -36,8 +40,9 @@ export async function createCheckoutSession(
       metadata: {
         orderNumber: metadata.orderNumber,
         customerName: metadata.customerName,
-        customerEmail: metadata.customerEmail,
-        clerkUserId: metadata.clerkUserId!,
+        customerEmail: metadata.customerEmail || "",
+        customerPhone: metadata.customerPhone || "",
+        authUserId: metadata.authUserId || "",
         address: JSON.stringify(metadata.address),
       },
       mode: "payment",
@@ -69,7 +74,7 @@ export async function createCheckoutSession(
     };
     if (customerId) {
       sessionPayload.customer = customerId;
-    } else {
+    } else if (isValidEmail) {
       sessionPayload.customer_email = metadata.customerEmail;
     }
 

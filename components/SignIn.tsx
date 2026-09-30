@@ -1,14 +1,15 @@
 "use client";
-import { SignInButton } from "@clerk/nextjs";
+import { signIn } from "next-auth/react";
 import React from "react";
 
 const SignIn = () => {
   return (
-    <SignInButton mode="modal">
-      <button className="text-sm font-semibold hover:text-darkColor text-lightColor hover:cursor-pointer hoverEffect">
-        Login
-      </button>
-    </SignInButton>
+    <button
+      onClick={() => signIn("google", { callbackUrl: "/" })}
+      className="text-sm font-semibold hover:text-darkColor text-lightColor hover:cursor-pointer hoverEffect"
+    >
+      Login
+    </button>
   );
 };
 

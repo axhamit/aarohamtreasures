@@ -72,8 +72,14 @@ async function createOrderInSanity(
     payment_intent,
     total_details,
   } = session;
-  const { orderNumber, customerName, customerEmail, clerkUserId, address } =
-    metadata as unknown as Metadata & { address: string };
+  const {
+    orderNumber,
+    customerName,
+    customerEmail,
+    customerPhone,
+    authUserId,
+    address,
+  } = metadata as unknown as Metadata & { address: string };
   const parsedAddress = address ? JSON.parse(address) : null;
 
   const lineItemsWithProduct = await stripe.checkout.sessions.listLineItems(
@@ -109,8 +115,9 @@ async function createOrderInSanity(
     stripePaymentIntentId: payment_intent,
     customerName,
     stripeCustomerId: customerEmail,
-    clerkUserId: clerkUserId,
+    authUserId: authUserId,
     email: customerEmail,
+    phone: customerPhone,
     currency,
     amountDiscount: total_details?.amount_discount
       ? total_details.amount_discount / 100

@@ -26,7 +26,7 @@ import { Address } from "@/sanity.types";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import useStore from "@/store";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 import { ShoppingBag, Trash, Sparkles, Shield, Truck, Clock, CreditCard, QrCode } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,8 +44,12 @@ const CartPage = () => {
   const [loading, setLoading] = useState(false);
   const [upiLoading, setUpiLoading] = useState(false);
   const groupedItems = useStore((state) => state.getGroupedItems());
-  const { isSignedIn } = useAuth();
-  const { user } = useUser();
+  const cartItemCount = groupedItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+  const { data: session, status } = useSession();
+  const isSignedIn = status === "authenticated";
   const [addresses, setAddresses] = useState<Address[] | null>(null);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<"card" | "upi">("upi");
@@ -166,9 +170,9 @@ const CartPage = () => {
     try {
       const metadata: Metadata = {
         orderNumber: crypto.randomUUID(),
-        customerName: user?.fullName ?? "Unknown",
-        customerEmail: user?.emailAddresses[0]?.emailAddress ?? "Unknown",
-        clerkUserId: user?.id,
+        customerName: session?.user?.name ?? "Unknown",
+        customerEmail: session?.user?.email ?? undefined,
+        authUserId: session?.user?.id,
         address: selectedAddress,
       };
       const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
@@ -213,7 +217,7 @@ const CartPage = () => {
                       Shopping Cart
                     </Title>
                     <p className="text-sm text-gray-500 mt-1">
-                      {getItemCount()} {getItemCount() === 1 ? "item" : "items"}
+                      {cartItemCount} {cartItemCount === 1 ? "item" : "items"}
                     </p>
                   </div>
                 </div>
